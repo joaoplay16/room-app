@@ -1,5 +1,6 @@
 package com.example.roomapp.fragments.add
 
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
@@ -7,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
@@ -14,7 +16,6 @@ import androidx.navigation.fragment.findNavController
 import com.example.roomapp.R
 import com.example.roomapp.data.User
 import com.example.roomapp.data.UserViewModel
-import kotlinx.android.synthetic.main.fragment_add.view.*
 
 class AddFragment : Fragment() {
     private lateinit var mUserViewModel: UserViewModel
@@ -32,11 +33,11 @@ class AddFragment : Fragment() {
         val view =  inflater.inflate(R.layout.fragment_add, container, false)
 
 
-        edtFirstName = view.edtFirstName
-        edtLastName = view.edtLastName
-        edtAge = view.edtAge
+        edtFirstName = view.findViewById(R.id.edtFirstName)
+        edtLastName = view.findViewById(R.id.edtLastName)
+        edtAge = view.findViewById(R.id.edtAge)
 
-        view.btnAdd.setOnClickListener {
+        view.findViewById<Button>(R.id.btnAdd).setOnClickListener {
             insertDataToDatabase()
         }
 
