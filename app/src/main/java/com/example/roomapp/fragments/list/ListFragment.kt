@@ -1,6 +1,5 @@
 package com.example.roomapp.fragments.list
 
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -13,7 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.roomapp.R
-import com.example.roomapp.data.UserViewModel
+import com.example.roomapp.viewmodel.UserViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class ListFragment : Fragment() {

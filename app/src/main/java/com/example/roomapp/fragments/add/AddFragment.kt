@@ -1,6 +1,5 @@
 package com.example.roomapp.fragments.add
 
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
@@ -14,8 +13,8 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.roomapp.R
-import com.example.roomapp.data.User
-import com.example.roomapp.data.UserViewModel
+import com.example.roomapp.model.User
+import com.example.roomapp.viewmodel.UserViewModel
 
 class AddFragment : Fragment() {
     private lateinit var mUserViewModel: UserViewModel
@@ -33,9 +32,9 @@ class AddFragment : Fragment() {
         val view =  inflater.inflate(R.layout.fragment_add, container, false)
 
 
-        edtFirstName = view.findViewById(R.id.edtFirstName)
-        edtLastName = view.findViewById(R.id.edtLastName)
-        edtAge = view.findViewById(R.id.edtAge)
+        edtFirstName = view.findViewById(R.id.edtUpdateFirstName)
+        edtLastName = view.findViewById(R.id.edtUpdateLastName)
+        edtAge = view.findViewById(R.id.edtUpdateAge)
 
         view.findViewById<Button>(R.id.btnAdd).setOnClickListener {
             insertDataToDatabase()

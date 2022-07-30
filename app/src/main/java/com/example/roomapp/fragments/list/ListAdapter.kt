@@ -5,9 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.roomapp.R
-import com.example.roomapp.data.User
+import com.example.roomapp.model.User
 
 class ListAdapter: RecyclerView.Adapter<ListAdapter.MyViewHolder>(){
 
@@ -30,6 +32,11 @@ class ListAdapter: RecyclerView.Adapter<ListAdapter.MyViewHolder>(){
         holder.itemView.findViewById<TextView>(R.id.txtFirstName).text = currentItem.firstName
         holder.itemView.findViewById<TextView>(R.id.txtLastName).text = currentItem.lastName
         holder.itemView.findViewById<TextView>(R.id.txtAge).text = currentItem.age.toString()
+
+        holder.itemView.findViewById<ConstraintLayout>(R.id.rowLayout).setOnClickListener {
+            val action = ListFragmentDirections.actionListFragmentToUpdateFragment(currentItem)
+            holder.itemView.findNavController().navigate(action)
+        }
     }
 
     fun setData(user: List<User>){
