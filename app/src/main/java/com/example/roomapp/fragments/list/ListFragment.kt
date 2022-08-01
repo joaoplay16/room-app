@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -15,9 +16,10 @@ import com.example.roomapp.R
 import com.example.roomapp.viewmodel.UserViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-class ListFragment : Fragment() {
+class ListFragment : Fragment(), SearchView.OnQueryTextListener {
     private lateinit var mUserViewModel: UserViewModel
-
+    private lateinit var mRecyclerView: RecyclerView
+    private lateinit var mAdapter: ListAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -25,17 +27,18 @@ class ListFragment : Fragment() {
         // Inflate the layout for this fragment
         val view =  inflater.inflate(R.layout.fragment_list, container, false)
 
-        val adapter = ListAdapter()
-        val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        mAdapter = ListAdapter()
+        mRecyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
+        mRecyclerView.adapter = mAdapter
+        mRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         mUserViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
         mUserViewModel.readAllData.observe(viewLifecycleOwner, Observer{ user ->
-            adapter.setData(user)
+            mAdapter.setData(user)
             Log.d("RECYCLER", "${user}")
 
         })
+
 
         view.findViewById<FloatingActionButton>(R.id.floatingActionButton).setOnClickListener{
             findNavController().navigate(R.id.action_listFragment_to_addFragment)
@@ -48,6 +51,11 @@ class ListFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.delete_menu, menu)
+
+        val search = menu.findItem(R.id.menu_search)
+        val searchView = search.actionView as SearchView
+        searchView.isSubmitButtonEnabled = true
+        searchView.setOnQueryTextListener(this)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -72,5 +80,27 @@ class ListFragment : Fragment() {
         builder.setTitle("Delete everything?")
         builder.setMessage("Are you sure you want to delete everything?")
         builder.create().show()
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+       query?.let {
+           searchDatabase(query)
+       }
+
+        return true
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        newText?.let {
+            searchDatabase(newText)
+        }
+        return true
+    }
+
+    fun searchDatabase(text: String){
+        val searchQuery = "%$text%"
+        mUserViewModel.searchData(searchQuery).observe(this){ result ->
+            mAdapter.setData(result)
+        }
     }
 }

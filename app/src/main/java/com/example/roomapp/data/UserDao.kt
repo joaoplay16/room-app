@@ -22,4 +22,7 @@ interface UserDao {
     @Query("SELECT * FROM user_table ORDER BY id ASC")
     fun readAllData(): LiveData<List<User>>
 
+
+    @Query("SELECT * FROM user_table WHERE firstName LIKE :search_query or lastName LIKE :search_query")
+    fun searchUser(search_query: String): LiveData<List<User>>
 }

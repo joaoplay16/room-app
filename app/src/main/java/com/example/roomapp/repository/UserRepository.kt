@@ -8,6 +8,7 @@ class UserRepository(private val userDao: UserDao) {
 
     val readAllData: LiveData<List<User>> = userDao.readAllData()
 
+
     suspend fun addUser(user: User){
         userDao.addUser(user)
     }
@@ -22,5 +23,9 @@ class UserRepository(private val userDao: UserDao) {
 
     suspend fun deleteAllUsers(){
         userDao.deleteAllUsers()
+    }
+
+    fun searchData(text: String): LiveData<List<User>> {
+        return userDao.searchUser(text)
     }
 }

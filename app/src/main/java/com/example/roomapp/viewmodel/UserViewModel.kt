@@ -44,4 +44,8 @@ class UserViewModel(application: Application): AndroidViewModel(application) {
             repository.deleteAllUsers()
         }
     }
+
+    fun searchData(text: String): LiveData<List<User>> {
+            return repository.searchData(text)
+    }
 }
